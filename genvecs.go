@@ -1,42 +1,13 @@
 package genvecs
 
 import (
-	"math"
+	math "github.com/gabe-lee/genmath"
 )
 
-const (
-	DEG2RAD = 0.01745329252
-	RAD2DEG = 57.295779513
-)
-
-type integer interface {
-	~uint | ~int | ~uint8 | ~int8 | ~uint16 | ~int16 | ~uint32 | ~int32 | ~uint64 | ~int64 | ~uintptr
-}
-
-type float interface {
-	~float32 | float64
-}
-
-// type complex interface {
-// 	~complex64 | ~complex128
-// }
-
-// type unsigned interface {
-// 	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr
-// }
-
-// type signed interface {
-// 	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~float32 | ~float64 | ~complex64 | ~complex128
-// }
-
-type Number interface {
-	integer | float /*| complex*/
-}
-
-type Vec2[T Number] [2]T
-type Vec3[T Number] [3]T
-type Vec4[T Number] [4]T
-type VecN[T Number] []T
+type Vec2[T math.Real] [2]T
+type Vec3[T math.Real] [3]T
+type Vec4[T math.Real] [4]T
+type VecN[T math.Real] []T
 
 type IVec2 = Vec2[int]
 type UVec2 = Vec2[uint]
@@ -90,15 +61,15 @@ type U64VecN = VecN[uint64]
 type F32VecN = VecN[float32]
 type F64VecN = VecN[float64]
 
-type Line2[T Number] [2]Vec2[T]
-type Tri2[T Number] [3]Vec2[T]
-type Quad2[T Number] [4]Vec2[T]
-type Array2[T Number] []Vec2[T]
+type Line2[T math.Real] [2]Vec2[T]
+type Tri2[T math.Real] [3]Vec2[T]
+type Quad2[T math.Real] [4]Vec2[T]
+type Array2[T math.Real] []Vec2[T]
 
-type Line3[T Number] [2]Vec3[T]
-type Tri3[T Number] [3]Vec3[T]
-type Quad3[T Number] [4]Vec3[T]
-type Array3[T Number] []Vec3[T]
+type Line3[T math.Real] [2]Vec3[T]
+type Tri3[T math.Real] [3]Vec3[T]
+type Quad3[T math.Real] [4]Vec3[T]
+type Array3[T math.Real] []Vec3[T]
 
 type ILine2 = Line2[int]
 type ULine2 = Line2[uint]
@@ -338,16 +309,16 @@ func (self Vec4[T]) WithA(val T) Vec4[T] {
 	return self
 }
 
-func MakeVec2[T Number](vals ...T) (result Vec2[T]) {
+func MakeVec2[T math.Real](vals ...T) (result Vec2[T]) {
 	return result.Swizzle(vals...)
 }
-func MakeVec3[T Number](vals ...T) (result Vec3[T]) {
+func MakeVec3[T math.Real](vals ...T) (result Vec3[T]) {
 	return result.Swizzle(vals...)
 }
-func MakeVec4[T Number](vals ...T) (result Vec4[T]) {
+func MakeVec4[T math.Real](vals ...T) (result Vec4[T]) {
 	return result.Swizzle(vals...)
 }
-func MakeVecN[T Number](vals ...T) (result VecN[T]) {
+func MakeVecN[T math.Real](vals ...T) (result VecN[T]) {
 	return VecN[T](vals)
 }
 
@@ -702,52 +673,52 @@ func (self Vec4[T]) Scale(val T) (result Vec4[T]) {
 }
 
 func (self Vec2[T]) Mod(other Vec2[T]) (result Vec2[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
 	return result
 }
 func (self Vec2[T]) ModV3(other Vec3[T]) (result Vec2[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
 	return result
 }
 func (self Vec2[T]) ModV4(other Vec4[T]) (result Vec2[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
 	return result
 }
 func (self Vec3[T]) Mod(other Vec3[T]) (result Vec3[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
-	result[2] = T(math.Mod(float64(self[2]), float64(other[2])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
+	result[2] = math.FMod(self[2], other[2])
 	return result
 }
 
 // Missing terms in 'other' are ignored
 func (self Vec3[T]) ModV2(other Vec2[T]) (result Vec3[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
 	result[2] = self[2]
 	return result
 }
 func (self Vec3[T]) ModV4(other Vec4[T]) (result Vec3[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
-	result[2] = T(math.Mod(float64(self[2]), float64(other[2])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
+	result[2] = math.FMod(self[2], other[2])
 	return result
 }
 func (self Vec4[T]) Mod(other Vec4[T]) (result Vec4[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
-	result[2] = T(math.Mod(float64(self[2]), float64(other[2])))
-	result[3] = T(math.Mod(float64(self[3]), float64(other[3])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
+	result[2] = math.FMod(self[2], other[2])
+	result[3] = math.FMod(self[3], other[3])
 	return result
 }
 
 // Missing terms in 'other' are ignored
 func (self Vec4[T]) ModV2(other Vec2[T]) (result Vec4[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
 	result[2] = self[2]
 	result[3] = self[3]
 	return result
@@ -755,9 +726,9 @@ func (self Vec4[T]) ModV2(other Vec2[T]) (result Vec4[T]) {
 
 // Missing terms in 'other' are ignored
 func (self Vec4[T]) ModV3(other Vec3[T]) (result Vec4[T]) {
-	result[0] = T(math.Mod(float64(self[0]), float64(other[0])))
-	result[1] = T(math.Mod(float64(self[1]), float64(other[1])))
-	result[2] = T(math.Mod(float64(self[2]), float64(other[2])))
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.FMod(self[1], other[1])
+	result[2] = math.FMod(self[2], other[2])
 	result[3] = self[3]
 	return result
 }
@@ -876,15 +847,15 @@ func (self Vec3[T]) Detr(other Vec3[T], third Vec3[T]) T {
 
 func (self Vec2[T]) Len() T {
 	sq := (self[0] * self[0]) + (self[1] * self[1])
-	return T(math.Sqrt(float64(sq)))
+	return math.Root(sq, 2)
 }
 func (self Vec3[T]) Len() T {
 	sq := (self[0] * self[0]) + (self[1] * self[1]) + (self[2] * self[2])
-	return T(math.Sqrt(float64(sq)))
+	return math.Root(sq, 2)
 }
 func (self Vec4[T]) Len() T {
 	sq := (self[0] * self[0]) + (self[1] * self[1]) + (self[2] * self[2]) + (self[3] * self[3])
-	return T(math.Sqrt(float64(sq)))
+	return math.Root(sq, 2)
 }
 
 func (self Vec2[T]) Norm() (result Vec2[T]) {
@@ -952,24 +923,24 @@ func (self Vec4[T]) LerpOther(other Vec4[T], amount float64) (result Vec4[T]) {
 }
 
 func (self Vec2[T]) Rotate(degrees float64) (result Vec2[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	return self.rotInternal(sin, cos)
 }
 
 func (self Vec3[T]) RotateX(degrees float64) (result Vec3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	return self.rotInternalX(sin, cos)
 }
 func (self Vec3[T]) RotateY(degrees float64) (result Vec3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	return self.rotInternalY(sin, cos)
 }
 func (self Vec3[T]) RotateZ(degrees float64) (result Vec3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	return self.rotInternalZ(sin, cos)
 }
 
@@ -1028,6 +999,87 @@ func (self Vec4[T]) Equals(other Vec4[T]) bool {
 	return self[0] == other[0] && self[1] == other[1] && self[2] == other[2] && self[3] == other[3]
 }
 
+func (self Line2[T]) A() (result Vec2[T]) {
+	return self[0]
+}
+func (self Line2[T]) B() (result Vec2[T]) {
+	return self[1]
+}
+func (self Line2[T]) Delta() (result Vec2[T]) {
+	return self[1].Sub(self[0])
+}
+func (self Line2[T]) Len() T {
+	return self.Delta().Len()
+}
+func (self Line2[T]) Lerp(val float64) (result Vec2[T]) {
+	delta := self.Delta()
+	dx, dy := float64(delta.X())*val, float64(delta.Y())*val
+	return self.A().Add(Vec2[T]{T(dx), T(dy)})
+}
+func (self Line2[T]) PerpLines(offset T) (left Line2[T], right Line2[T]) {
+	mult := Vec2[T]{offset, offset}
+	delta := self.Delta()
+	norm := delta.Norm()
+	perpCW, perpCCW := norm.Mult(mult).Perp()
+	left = Line2[T]{self.A().Add(perpCCW), self.B().Add(perpCCW)}
+	right = Line2[T]{self.A().Add(perpCW), self.B().Add(perpCW)}
+	return left, right
+}
+func (self Line2[T]) IntersectionInfinite(other Line2[T]) (Vec2[T], bool) {
+	xdiff := Vec2[T]{self[0][0] - self[1][0], other[0][0] - other[1][0]}
+	ydiff := Vec2[T]{self[0][1] - self[1][1], other[0][1] - other[1][1]}
+	div := xdiff.Detr(ydiff)
+	if div == 0 {
+		return Vec2[T]{}, false
+	}
+	d := Vec2[T]{self.A().Detr(self.B()), other.A().Detr(other.B())}
+	x := d.Detr(xdiff) / div
+	y := d.Detr(ydiff) / div
+	return Vec2[T]{x, y}, true
+}
+func (self Line2[T]) IntersectionFinite(other Line2[T]) (Vec2[T], bool) {
+	aStart := self.A()
+	aDelta := self.Delta()
+	bStart := other.A()
+	bDelta := other.Delta()
+	denom := aDelta.Cross(bDelta)
+	numer := bStart.Sub(aStart).Cross(aDelta)
+	if denom == 0 {
+		if numer == 0 {
+			var aLeft, aRight, bLeft, bRight Vec2[T]
+			if self.A().X() < self.B().X() {
+				aLeft = self.A()
+				aRight = self.B()
+			} else {
+				aLeft = self.B()
+				aRight = self.A()
+			}
+			if other.A().X() < other.B().X() {
+				bLeft = other.A()
+				bRight = other.B()
+			} else {
+				bLeft = other.B()
+				bRight = other.A()
+			}
+			if aLeft.X() >= bLeft.X() && aLeft.X() <= bRight.X() {
+				return aLeft, true
+			} else if aRight.X() >= bLeft.X() && aRight.X() <= bRight.X() {
+				return aRight, true
+			} else {
+				return Vec2[T]{}, false
+			}
+		} else {
+			return Vec2[T]{}, false
+		}
+	}
+	aLerp := bStart.Sub(aStart).Cross(bDelta) / denom
+	bLerp := bStart.Sub(aStart).Cross(aDelta) / denom
+	if aLerp >= 0 && aLerp <= 1 && bLerp >= 0 && bLerp <= 1 {
+		intersection := self.A().LerpOther(self.B(), float64(aLerp))
+		return intersection, true
+	}
+	return Vec2[T]{}, false
+}
 func (self Line2[T]) Translate(val Vec2[T]) (result Line2[T]) {
 	result[0] = self[0].Add(val)
 	result[1] = self[1].Add(val)
@@ -1044,8 +1096,8 @@ func (self Line2[T]) Mult(val Vec2[T]) (result Line2[T]) {
 	return result
 }
 func (self Line2[T]) Rotate(degrees float64) (result Line2[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternal(sin, cos)
 	result[1] = self[1].rotInternal(sin, cos)
 	return result
@@ -1070,13 +1122,21 @@ func (self Tri2[T]) Mult(val Vec2[T]) (result Tri2[T]) {
 	return result
 }
 func (self Tri2[T]) Rotate(degrees float64) (result Tri2[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternal(sin, cos)
 	result[1] = self[1].rotInternal(sin, cos)
 	result[2] = self[2].rotInternal(sin, cos)
 	return result
 }
+func (self Tri2[T]) Area() T {
+	return math.Abs(
+		/**/ ((self[1].X()*self[0].Y())-(self[0].X()*self[1].Y()))+
+			((self[2].X()*self[1].Y())-(self[1].X()*self[2].Y()))+
+			((self[0].X()*self[2].Y())-(self[2].X()*self[0].Y()))) / 2
+
+}
+
 func (self Quad2[T]) Translate(val Vec2[T]) (result Quad2[T]) {
 	result[0] = self[0].Add(val)
 	result[1] = self[1].Add(val)
@@ -1099,8 +1159,8 @@ func (self Quad2[T]) Mult(val Vec2[T]) (result Quad2[T]) {
 	return result
 }
 func (self Quad2[T]) Rotate(degrees float64) (result Quad2[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternal(sin, cos)
 	result[1] = self[1].rotInternal(sin, cos)
 	result[2] = self[2].rotInternal(sin, cos)
@@ -1130,8 +1190,8 @@ func (self Array2[T]) Mult(val Vec2[T]) (result Array2[T]) {
 	return result
 }
 func (self Array2[T]) Rotate(degrees float64) (result Array2[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result = make([]Vec2[T], len(self))
 	for i := 0; i < len(self); i += 1 {
 		result[i] = self[i].rotInternal(sin, cos)
@@ -1155,22 +1215,22 @@ func (self Line3[T]) Mult(val Vec3[T]) (result Line3[T]) {
 	return result
 }
 func (self Line3[T]) RotateX(degrees float64) (result Line3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalX(sin, cos)
 	result[1] = self[1].rotInternalX(sin, cos)
 	return result
 }
 func (self Line3[T]) RotateY(degrees float64) (result Line3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalY(sin, cos)
 	result[1] = self[1].rotInternalY(sin, cos)
 	return result
 }
 func (self Line3[T]) RotateZ(degrees float64) (result Line3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalZ(sin, cos)
 	result[1] = self[1].rotInternalZ(sin, cos)
 	return result
@@ -1195,24 +1255,24 @@ func (self Tri3[T]) Mult(val Vec3[T]) (result Tri3[T]) {
 	return result
 }
 func (self Tri3[T]) RotateX(degrees float64) (result Tri3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalX(sin, cos)
 	result[1] = self[1].rotInternalX(sin, cos)
 	result[2] = self[2].rotInternalX(sin, cos)
 	return result
 }
 func (self Tri3[T]) RotateY(degrees float64) (result Tri3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalY(sin, cos)
 	result[1] = self[1].rotInternalY(sin, cos)
 	result[2] = self[2].rotInternalY(sin, cos)
 	return result
 }
 func (self Tri3[T]) RotateZ(degrees float64) (result Tri3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalZ(sin, cos)
 	result[1] = self[1].rotInternalZ(sin, cos)
 	result[2] = self[2].rotInternalZ(sin, cos)
@@ -1240,8 +1300,8 @@ func (self Quad3[T]) Mult(val Vec3[T]) (result Quad3[T]) {
 	return result
 }
 func (self Quad3[T]) RotateX(degrees float64) (result Quad3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalX(sin, cos)
 	result[1] = self[1].rotInternalX(sin, cos)
 	result[2] = self[2].rotInternalX(sin, cos)
@@ -1249,8 +1309,8 @@ func (self Quad3[T]) RotateX(degrees float64) (result Quad3[T]) {
 	return result
 }
 func (self Quad3[T]) RotateY(degrees float64) (result Quad3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalY(sin, cos)
 	result[1] = self[1].rotInternalY(sin, cos)
 	result[2] = self[2].rotInternalY(sin, cos)
@@ -1258,8 +1318,8 @@ func (self Quad3[T]) RotateY(degrees float64) (result Quad3[T]) {
 	return result
 }
 func (self Quad3[T]) RotateZ(degrees float64) (result Quad3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result[0] = self[0].rotInternalZ(sin, cos)
 	result[1] = self[1].rotInternalZ(sin, cos)
 	result[2] = self[2].rotInternalZ(sin, cos)
@@ -1289,8 +1349,8 @@ func (self Array3[T]) Mult(val Vec3[T]) (result Array3[T]) {
 	return result
 }
 func (self Array3[T]) RotateX(degrees float64) (result Array3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result = make([]Vec3[T], len(self))
 	for i := 0; i < len(self); i += 1 {
 		result[i] = self[i].rotInternalX(sin, cos)
@@ -1298,8 +1358,8 @@ func (self Array3[T]) RotateX(degrees float64) (result Array3[T]) {
 	return result
 }
 func (self Array3[T]) RotateY(degrees float64) (result Array3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result = make([]Vec3[T], len(self))
 	for i := 0; i < len(self); i += 1 {
 		result[i] = self[i].rotInternalY(sin, cos)
@@ -1307,8 +1367,8 @@ func (self Array3[T]) RotateY(degrees float64) (result Array3[T]) {
 	return result
 }
 func (self Array3[T]) RotateZ(degrees float64) (result Array3[T]) {
-	cos := math.Cos(DEG2RAD * degrees)
-	sin := math.Sin(DEG2RAD * degrees)
+	cos := math.CosDeg(degrees)
+	sin := math.SinDeg(degrees)
 	result = make([]Vec3[T], len(self))
 	for i := 0; i < len(self); i += 1 {
 		result[i] = self[i].rotInternalZ(sin, cos)

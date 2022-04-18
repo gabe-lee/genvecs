@@ -64,11 +64,13 @@ type F64VecN = VecN[float64]
 type Line2[T math.Real] [2]Vec2[T]
 type Tri2[T math.Real] [3]Vec2[T]
 type Quad2[T math.Real] [4]Vec2[T]
+type AABB2[T math.Real] [2]Vec2[T]
 type Array2[T math.Real] []Vec2[T]
 
 type Line3[T math.Real] [2]Vec3[T]
 type Tri3[T math.Real] [3]Vec3[T]
 type Quad3[T math.Real] [4]Vec3[T]
+type AABB3[T math.Real] [3]Vec3[T]
 type Array3[T math.Real] []Vec3[T]
 
 type ILine2 = Line2[int]
@@ -109,6 +111,32 @@ type I64Quad2 = Quad2[int64]
 type U64Quad2 = Quad2[uint64]
 type F32Quad2 = Quad2[float32]
 type F64Quad2 = Quad2[float64]
+
+type IAABB2 = AABB2[int]
+type UAABB2 = AABB2[uint]
+type I8AABB2 = AABB2[int8]
+type U8AABB2 = AABB2[uint8]
+type I16AABB2 = AABB2[int16]
+type U16AABB2 = AABB2[uint16]
+type I32AABB2 = AABB2[int32]
+type U32AABB2 = AABB2[uint32]
+type I64AABB2 = AABB2[int64]
+type U64AABB2 = AABB2[uint64]
+type F32AABB2 = AABB2[float32]
+type F64AABB2 = AABB2[float64]
+
+type IRect2 = AABB2[int]
+type URect2 = AABB2[uint]
+type I8Rect2 = AABB2[int8]
+type U8Rect2 = AABB2[uint8]
+type I16Rect2 = AABB2[int16]
+type U16Rect2 = AABB2[uint16]
+type I32Rect2 = AABB2[int32]
+type U32Rect2 = AABB2[uint32]
+type I64Rect2 = AABB2[int64]
+type U64Rect2 = AABB2[uint64]
+type F32Rect2 = AABB2[float32]
+type F64Rect2 = AABB2[float64]
 
 type IArray2 = Array2[int]
 type UArray2 = Array2[uint]
@@ -161,6 +189,32 @@ type I64Quad3 = Quad3[int64]
 type U64Quad3 = Quad3[uint64]
 type F32Quad3 = Quad3[float32]
 type F64Quad3 = Quad3[float64]
+
+type IAABB3 = AABB3[int]
+type UAABB3 = AABB3[uint]
+type I8AABB3 = AABB3[int8]
+type U8AABB3 = AABB3[uint8]
+type I16AABB3 = AABB3[int16]
+type U16AABB3 = AABB3[uint16]
+type I32AABB3 = AABB3[int32]
+type U32AABB3 = AABB3[uint32]
+type I64AABB3 = AABB3[int64]
+type U64AABB3 = AABB3[uint64]
+type F32AABB3 = AABB3[float32]
+type F64AABB3 = AABB3[float64]
+
+type IRect3 = AABB3[int]
+type URect3 = AABB3[uint]
+type I8Rect3 = AABB3[int8]
+type U8Rect3 = AABB3[uint8]
+type I16Rect3 = AABB3[int16]
+type U16Rect3 = AABB3[uint16]
+type I32Rect3 = AABB3[int32]
+type U32Rect3 = AABB3[uint32]
+type I64Rect3 = AABB3[int64]
+type U64Rect3 = AABB3[uint64]
+type F32Rect3 = AABB3[float32]
+type F64Rect3 = AABB3[float64]
 
 type IArray3 = Array3[int]
 type UArray3 = Array3[uint]
@@ -672,22 +726,22 @@ func (self Vec4[T]) Scale(val T) (result Vec4[T]) {
 	return result
 }
 
-func (self Vec2[T]) Mod(other Vec2[T]) (result Vec2[T]) {
+func (self Vec2[T]) FMod(other Vec2[T]) (result Vec2[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	return result
 }
-func (self Vec2[T]) ModV3(other Vec3[T]) (result Vec2[T]) {
+func (self Vec2[T]) FModV3(other Vec3[T]) (result Vec2[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	return result
 }
-func (self Vec2[T]) ModV4(other Vec4[T]) (result Vec2[T]) {
+func (self Vec2[T]) FModV4(other Vec4[T]) (result Vec2[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	return result
 }
-func (self Vec3[T]) Mod(other Vec3[T]) (result Vec3[T]) {
+func (self Vec3[T]) FMod(other Vec3[T]) (result Vec3[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = math.FMod(self[2], other[2])
@@ -695,19 +749,19 @@ func (self Vec3[T]) Mod(other Vec3[T]) (result Vec3[T]) {
 }
 
 // Missing terms in 'other' are ignored
-func (self Vec3[T]) ModV2(other Vec2[T]) (result Vec3[T]) {
+func (self Vec3[T]) FModV2(other Vec2[T]) (result Vec3[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = self[2]
 	return result
 }
-func (self Vec3[T]) ModV4(other Vec4[T]) (result Vec3[T]) {
+func (self Vec3[T]) FModV4(other Vec4[T]) (result Vec3[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = math.FMod(self[2], other[2])
 	return result
 }
-func (self Vec4[T]) Mod(other Vec4[T]) (result Vec4[T]) {
+func (self Vec4[T]) FMod(other Vec4[T]) (result Vec4[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = math.FMod(self[2], other[2])
@@ -716,7 +770,7 @@ func (self Vec4[T]) Mod(other Vec4[T]) (result Vec4[T]) {
 }
 
 // Missing terms in 'other' are ignored
-func (self Vec4[T]) ModV2(other Vec2[T]) (result Vec4[T]) {
+func (self Vec4[T]) FModV2(other Vec2[T]) (result Vec4[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = self[2]
@@ -725,10 +779,71 @@ func (self Vec4[T]) ModV2(other Vec2[T]) (result Vec4[T]) {
 }
 
 // Missing terms in 'other' are ignored
-func (self Vec4[T]) ModV3(other Vec3[T]) (result Vec4[T]) {
+func (self Vec4[T]) FModV3(other Vec3[T]) (result Vec4[T]) {
 	result[0] = math.FMod(self[0], other[0])
 	result[1] = math.FMod(self[1], other[1])
 	result[2] = math.FMod(self[2], other[2])
+	result[3] = self[3]
+	return result
+}
+
+func (self Vec2[T]) IMod(other Vec2[T]) (result Vec2[T]) {
+	result[0] = math.FMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	return result
+}
+func (self Vec2[T]) IModV3(other Vec3[T]) (result Vec2[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	return result
+}
+func (self Vec2[T]) IModV4(other Vec4[T]) (result Vec2[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	return result
+}
+func (self Vec3[T]) IMod(other Vec3[T]) (result Vec3[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = math.IMod(self[2], other[2])
+	return result
+}
+
+// Missing terms in 'other' are ignored
+func (self Vec3[T]) IModV2(other Vec2[T]) (result Vec3[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = self[2]
+	return result
+}
+func (self Vec3[T]) IModV4(other Vec4[T]) (result Vec3[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = math.IMod(self[2], other[2])
+	return result
+}
+func (self Vec4[T]) IMod(other Vec4[T]) (result Vec4[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = math.IMod(self[2], other[2])
+	result[3] = math.IMod(self[3], other[3])
+	return result
+}
+
+// Missing terms in 'other' are ignored
+func (self Vec4[T]) IModV2(other Vec2[T]) (result Vec4[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = self[2]
+	result[3] = self[3]
+	return result
+}
+
+// Missing terms in 'other' are ignored
+func (self Vec4[T]) IModV3(other Vec3[T]) (result Vec4[T]) {
+	result[0] = math.IMod(self[0], other[0])
+	result[1] = math.IMod(self[1], other[1])
+	result[2] = math.IMod(self[2], other[2])
 	result[3] = self[3]
 	return result
 }
@@ -1102,7 +1217,37 @@ func (self Line2[T]) Rotate(degrees float64) (result Line2[T]) {
 	result[1] = self[1].rotInternal(sin, cos)
 	return result
 }
+func (self Line2[T]) Reverse() Line2[T] {
+	return Line2[T]{self.B(), self.A()}
+}
 
+func (self Tri2[T]) A() Vec2[T] {
+	return self[0]
+}
+func (self Tri2[T]) B() Vec2[T] {
+	return self[1]
+}
+func (self Tri2[T]) C() Vec2[T] {
+	return self[2]
+}
+func (self Tri2[T]) AB() Line2[T] {
+	return Line2[T]{self.A(), self.B()}
+}
+func (self Tri2[T]) BA() Line2[T] {
+	return Line2[T]{self.B(), self.A()}
+}
+func (self Tri2[T]) BC() Line2[T] {
+	return Line2[T]{self.B(), self.C()}
+}
+func (self Tri2[T]) CB() Line2[T] {
+	return Line2[T]{self.C(), self.B()}
+}
+func (self Tri2[T]) CA() Line2[T] {
+	return Line2[T]{self.C(), self.A()}
+}
+func (self Tri2[T]) AC() Line2[T] {
+	return Line2[T]{self.A(), self.C()}
+}
 func (self Tri2[T]) Translate(val Vec2[T]) (result Tri2[T]) {
 	result[0] = self[0].Add(val)
 	result[1] = self[1].Add(val)
@@ -1134,9 +1279,80 @@ func (self Tri2[T]) Area() T {
 		/**/ ((self[1].X()*self[0].Y())-(self[0].X()*self[1].Y()))+
 			((self[2].X()*self[1].Y())-(self[1].X()*self[2].Y()))+
 			((self[0].X()*self[2].Y())-(self[2].X()*self[0].Y()))) / 2
-
+}
+func (self Tri2[T]) Reverse() Tri2[T] {
+	return Tri2[T]{self.C(), self.B(), self.A()}
 }
 
+func (self Quad2[T]) A() (result Vec2[T]) {
+	return self[0]
+}
+func (self Quad2[T]) B() (result Vec2[T]) {
+	return self[1]
+}
+func (self Quad2[T]) C() (result Vec2[T]) {
+	return self[2]
+}
+func (self Quad2[T]) D() (result Vec2[T]) {
+	return self[3]
+}
+func (self Quad2[T]) AB() Line2[T] {
+	return Line2[T]{self.A(), self.B()}
+}
+func (self Quad2[T]) BA() Line2[T] {
+	return Line2[T]{self.B(), self.A()}
+}
+func (self Quad2[T]) BC() Line2[T] {
+	return Line2[T]{self.B(), self.C()}
+}
+func (self Quad2[T]) CB() Line2[T] {
+	return Line2[T]{self.C(), self.B()}
+}
+func (self Quad2[T]) CD() Line2[T] {
+	return Line2[T]{self.C(), self.D()}
+}
+func (self Quad2[T]) DC() Line2[T] {
+	return Line2[T]{self.D(), self.C()}
+}
+func (self Quad2[T]) DA() Line2[T] {
+	return Line2[T]{self.D(), self.A()}
+}
+func (self Quad2[T]) AD() Line2[T] {
+	return Line2[T]{self.A(), self.D()}
+}
+func (self Quad2[T]) AC() Line2[T] {
+	return Line2[T]{self.A(), self.C()}
+}
+func (self Quad2[T]) CA() Line2[T] {
+	return Line2[T]{self.C(), self.A()}
+}
+func (self Quad2[T]) DB() Line2[T] {
+	return Line2[T]{self.D(), self.B()}
+}
+func (self Quad2[T]) BD() Line2[T] {
+	return Line2[T]{self.B(), self.D()}
+}
+func (self Quad2[T]) ABC() (result Tri2[T]) {
+	return Tri2[T]{self.A(), self.B(), self.D()}
+}
+func (self Quad2[T]) BCD() (result Tri2[T]) {
+	return Tri2[T]{self.B(), self.C(), self.D()}
+}
+func (self Quad2[T]) CDA() (result Tri2[T]) {
+	return Tri2[T]{self.C(), self.D(), self.A()}
+}
+func (self Quad2[T]) DAB() (result Tri2[T]) {
+	return Tri2[T]{self.D(), self.A(), self.B()}
+}
+func (self Quad2[T]) Area() T {
+	return self.ABC().Area() + self.CDA().Area()
+}
+func (self Quad2[T]) MapLerp(xLerp float64, yLerp float32) Vec2[T] {
+	h1 := self.AB().Lerp(xLerp)
+	h2 := self.DC().Lerp(xLerp)
+	v := h1.LerpOther(h2, float64(yLerp))
+	return v
+}
 func (self Quad2[T]) Translate(val Vec2[T]) (result Quad2[T]) {
 	result[0] = self[0].Add(val)
 	result[1] = self[1].Add(val)
@@ -1166,6 +1382,49 @@ func (self Quad2[T]) Rotate(degrees float64) (result Quad2[T]) {
 	result[2] = self[2].rotInternal(sin, cos)
 	result[3] = self[3].rotInternal(sin, cos)
 	return result
+}
+
+func NewRect2[T math.Real](pos Vec2[T], size Vec2[T]) AABB2[T] {
+	return AABB2[T]{pos, pos.Add(size)}
+}
+func (self AABB2[T]) X() T {
+	return self[0].X()
+}
+func (self AABB2[T]) Y() T {
+	return self[0].Y()
+}
+func (self AABB2[T]) W() T {
+	return self[1].X() - self[0].X()
+}
+func (self AABB2[T]) H() T {
+	return self[1].Y() - self[0].Y()
+}
+func (self AABB2[T]) Min() Vec2[T] {
+	return self[0]
+}
+func (self AABB2[T]) Max() Vec2[T] {
+	return self[1]
+}
+func (self AABB2[T]) Translate(val Vec2[T]) (result AABB2[T]) {
+	result[0] = self[0].Add(val)
+	result[1] = self[1].Add(val)
+	return result
+}
+func (self AABB2[T]) Scale(val T) (result AABB2[T]) {
+	result[0] = self[0].Scale(val)
+	result[1] = self[1].Scale(val)
+	return result
+}
+func (self AABB2[T]) Mult(val Vec2[T]) (result AABB2[T]) {
+	result[0] = self[0].Mult(val)
+	result[1] = self[1].Mult(val)
+	return result
+}
+func (self AABB2[T]) Area() T {
+	return self.W() * self.H()
+}
+func (self AABB2[T]) Quad() Quad2[T] {
+	return Quad2[T]{self.Min(), Vec2[T]{self.Max().X(), self.Min().Y()}, self.Max(), Vec2[T]{self.Min().X(), self.Max().Y()}}
 }
 
 func (self Array2[T]) Translate(val Vec2[T]) (result Array2[T]) {

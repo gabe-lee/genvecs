@@ -347,6 +347,9 @@ func MakeVec3[T Number](vals ...T) (result Vec3[T]) {
 func MakeVec4[T Number](vals ...T) (result Vec4[T]) {
 	return result.Swizzle(vals...)
 }
+func MakeVecN[T Number](vals ...T) (result VecN[T]) {
+	return VecN[T](vals)
+}
 
 func (self Vec2[T]) Swizzle(vals ...T) (result Vec2[T]) {
 	i := 0
@@ -1346,6 +1349,15 @@ func (self VecN[T]) Vec3() Vec3[T] {
 }
 func (self VecN[T]) Vec4() Vec4[T] {
 	return (Vec4[T]{0, 0, 0, 0}).Swizzle(self...)
+}
+func (self Vec2[T]) VecN() VecN[T] {
+	return VecN[T]{self[0], self[1]}
+}
+func (self Vec3[T]) VecN() VecN[T] {
+	return VecN[T]{self[0], self[1], self[2]}
+}
+func (self Vec4[T]) VecN() VecN[T] {
+	return VecN[T]{self[0], self[1], self[2], self[3]}
 }
 
 func (self Vec2[T]) XX() VecN[T] {

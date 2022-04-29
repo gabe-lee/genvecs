@@ -67,11 +67,21 @@ type Quad2[T math.Real] [4]Vec2[T]
 type AABB2[T math.Real] [2]Vec2[T]
 type Array2[T math.Real] []Vec2[T]
 
+type Circ2[T math.Real] struct {
+	Center Vec2[T]
+	Radius T
+}
+
 type Line3[T math.Real] [2]Vec3[T]
 type Tri3[T math.Real] [3]Vec3[T]
 type Quad3[T math.Real] [4]Vec3[T]
-type AABB3[T math.Real] [3]Vec3[T]
+type AABB3[T math.Real] [2]Vec3[T]
 type Array3[T math.Real] []Vec3[T]
+
+type Circ3[T math.Real] struct {
+	Center Vec3[T]
+	Radius T
+}
 
 type ILine2 = Line2[int]
 type ULine2 = Line2[uint]
@@ -151,6 +161,19 @@ type U64Array2 = Array2[uint64]
 type F32Array2 = Array2[float32]
 type F64Array2 = Array2[float64]
 
+type ICirc2 = Circ2[int]
+type UCirc2 = Circ2[uint]
+type I8Circ2 = Circ2[int8]
+type U8Circ2 = Circ2[uint8]
+type I16Circ2 = Circ2[int16]
+type U16Circ2 = Circ2[uint16]
+type I32Circ2 = Circ2[int32]
+type U32Circ2 = Circ2[uint32]
+type I64Circ2 = Circ2[int64]
+type U64Circ2 = Circ2[uint64]
+type F32Circ2 = Circ2[float32]
+type F64Circ2 = Circ2[float64]
+
 type ILine3 = Line3[int]
 type ULine3 = Line3[uint]
 type I8Line3 = Line3[int8]
@@ -228,6 +251,19 @@ type I64Array3 = Array3[int64]
 type U64Array3 = Array3[uint64]
 type F32Array3 = Array3[float32]
 type F64Array3 = Array3[float64]
+
+type ICirc3 = Circ3[int]
+type UCirc3 = Circ3[uint]
+type I8Circ3 = Circ3[int8]
+type U8Circ3 = Circ3[uint8]
+type I16Circ3 = Circ3[int16]
+type U16Circ3 = Circ3[uint16]
+type I32Circ3 = Circ3[int32]
+type U32Circ3 = Circ3[uint32]
+type I64Circ3 = Circ3[int64]
+type U64Circ3 = Circ3[uint64]
+type F32Circ3 = Circ3[float32]
+type F64Circ3 = Circ3[float64]
 
 func (self Vec2[T]) X() T {
 	return self[0]

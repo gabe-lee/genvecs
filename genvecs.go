@@ -1446,6 +1446,11 @@ func (self AABB2[T]) Translate(val Vec2[T]) (result AABB2[T]) {
 	result[1] = self[1].Add(val)
 	return result
 }
+func (self AABB2[T]) Expand(val Vec2[T]) (result AABB2[T]) {
+	result[0] = self[0]
+	result[1] = self[1].Add(val)
+	return result
+}
 func (self AABB2[T]) Scale(val T) (result AABB2[T]) {
 	result[0] = self[0].Scale(val)
 	result[1] = self[1].Scale(val)

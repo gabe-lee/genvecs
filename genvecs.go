@@ -1095,35 +1095,35 @@ func (self Vec3[T]) RotateZ(degrees float64) (result Vec3[T]) {
 	return self.rotInternalZ(sin, cos)
 }
 
-func (self Vec3[T]) AsVec2(add T) (result Vec2[T]) {
+func (self Vec3[T]) AsVec2() (result Vec2[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	return result
 }
-func (self Vec4[T]) AsVec2(add T) (result Vec2[T]) {
+func (self Vec4[T]) AsVec2() (result Vec2[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	return result
 }
 
-func (self Vec2[T]) AsVec3(add T) (result Vec3[T]) {
+func (self Vec2[T]) AsVec3() (result Vec3[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	return result
 }
-func (self Vec4[T]) AsVec3(add T) (result Vec3[T]) {
+func (self Vec4[T]) AsVec3() (result Vec3[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	result[2] = self[2]
 	return result
 }
 
-func (self Vec2[T]) AsVec4(add T) (result Vec4[T]) {
+func (self Vec2[T]) AsVec4() (result Vec4[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	return result
 }
-func (self Vec3[T]) AsVec4(add T) (result Vec4[T]) {
+func (self Vec3[T]) AsVec4() (result Vec4[T]) {
 	result[0] = self[0]
 	result[1] = self[1]
 	result[2] = self[2]
